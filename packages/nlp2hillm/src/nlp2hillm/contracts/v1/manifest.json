@@ -1,0 +1,13 @@
+{
+  "schema": "llm-dsl-contract-manifest/v1",
+  "name": "nlp2hillm-dsl-line",
+  "version": "1.0.0",
+  "boundary": "nlp2hillm.llm_backend.nl_to_dsl_line",
+  "direction": "llm-output",
+  "canonicalModel": "DslLineResponse",
+  "artifacts": {
+    "gbnf": "dsl-line.gbnf",
+    "protobuf": "dsl-line.proto",
+    "jsonSchema": "dsl-line.schema.json"
+  }
+}

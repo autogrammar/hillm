@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package nlp2hillm.contracts.v1;
+
+message DslLineResponse {
+  string contract_version = 1 [json_name = "contractVersion"];
+  string dsl = 2;
+}

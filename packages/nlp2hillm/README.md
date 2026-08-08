@@ -59,7 +59,9 @@ Auto-loaded from project root by `hillm.project_env.bootstrap_project_env()`:
 ```bash
 # LLM (optional)
 OPENROUTER_API_KEY=sk-or-v1-...
-LLM_MODEL=openrouter/qwen/qwen3-coder-next
+OPENROUTER_APP_NAME=hillm
+OPENROUTER_APP_URL=https://github.com/semcod/hillm
+LLM_MODEL=openrouter/z-ai/glm-5.2
 
 # Execution policy
 HILLM_DRY_RUN=1                    # force dry-run transport globally
@@ -69,6 +71,13 @@ HILLM_SENSOR_TEMP_ADDRESS=/dev/ttyACM0
 HILLM_MODBUS_HOST=127.0.0.1
 HILLM_MQTT_URL=mqtt://127.0.0.1:1883
 ```
+
+The LLM response is governed by the packaged `DslLineResponse` v1 bundle:
+GBNF, Protobuf, JSON Schema and a manifest naming the runtime boundary. The
+same schema is sent through LiteLLM and validated locally before the existing
+`dsl2hillm` hardware grammar parser. Prose, unknown verbs, extra fields and
+version drift fail closed. OpenRouter App attribution uses
+`OPENROUTER_APP_NAME` with project-folder fallback.
 
 ## Mapping reference
 

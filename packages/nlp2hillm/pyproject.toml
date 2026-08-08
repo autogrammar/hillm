@@ -9,7 +9,7 @@ description = "Natural language (PL/EN) to dsl2hillm — rules + optional OpenRo
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
-dependencies = ["dsl2hillm>=0.1.0", "hillm>=0.1.0"]
+dependencies = ["dsl2hillm>=0.1.0", "hillm>=0.1.0", "jsonschema>=4.21"]
 
 [project.optional-dependencies]
 llm = ["litellm>=1.51,<2.0"]
@@ -23,6 +23,13 @@ package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+nlp2hillm = [
+    "contracts/v1/*.gbnf",
+    "contracts/v1/*.json",
+    "contracts/v1/*.proto",
+]
 
 [tool.uv.sources]
 hillm = { workspace = true }

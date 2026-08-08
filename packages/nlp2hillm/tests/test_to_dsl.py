@@ -1,9 +1,6 @@
-from __future__ import annotations
-
-import pytest
-
 from unittest.mock import patch
 
+import pytest
 from nlp2hillm.to_dsl import resolve_device, to_dsl
 
 
@@ -57,7 +54,7 @@ def test_to_dsl_prefers_rules_when_key_set_and_clear_hint() -> None:
 def test_to_dsl_uses_llm_for_ambiguous_when_key_set() -> None:
     class _FakeBackend:
         def complete(self, *, model, messages, temperature=0.2, response_format=None) -> str:
-            return '{"dsl": "READ DEVICE modbus-rtu REGISTER holding:0"}'
+            return '{"contractVersion":"1.0.0","dsl":"READ DEVICE modbus-rtu REGISTER holding:0"}'
 
     with patch.dict("os.environ", {"OPENROUTER_API_KEY": "sk-test"}, clear=False):
         line = to_dsl(
@@ -84,7 +81,10 @@ def test_to_dsl_force_llm_raises_when_llm_fails() -> None:
 def test_to_dsl_force_llm_overrides_rules() -> None:
     class _FakeBackend:
         def complete(self, *, model, messages, temperature=0.2, response_format=None) -> str:
-            return '{"dsl": "READ DEVICE serial-ttyusb0 REGISTER temperature"}'
+            return (
+                '{"contractVersion":"1.0.0","dsl":'
+                '"READ DEVICE serial-ttyusb0 REGISTER temperature"}'
+            )
 
     with patch.dict("os.environ", {"OPENROUTER_API_KEY": "sk-test"}, clear=False):
         line = to_dsl(

@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
+
+from nlp2hillm.contracts import response_format, validate_payload
 
 
 @runtime_checkable
@@ -38,6 +41,17 @@ class LitellmBackend:
         }
         if response_format is not None:
             kwargs["response_format"] = response_format
+        if model.startswith("openrouter/"):
+            app_name = (
+                os.getenv("OPENROUTER_APP_NAME", "").strip()
+                or Path.cwd().name
+                or "hillm"
+            )
+            headers = {"X-Title": app_name}
+            app_url = os.getenv("OPENROUTER_APP_URL", "").strip()
+            if app_url:
+                headers["HTTP-Referer"] = app_url
+            kwargs["extra_headers"] = headers
         response = litellm.completion(**kwargs)
         return (response.choices[0].message.content or "").strip()
 
@@ -91,7 +105,7 @@ def nl_to_dsl_line(
     api_key = os.getenv("OPENROUTER_API_KEY", "").strip()
     if not api_key and backend is None:
         return None
-    resolved_model = model or os.getenv("LLM_MODEL", "openrouter/qwen/qwen3-coder-next")
+    resolved_model = model or os.getenv("LLM_MODEL", "openrouter/z-ai/glm-5.2")
     llm = get_backend(backend)
     system = (
         "Convert the user request to ONE dsl2hillm command line for hardware control.\n"
@@ -104,7 +118,8 @@ def nl_to_dsl_line(
         "- mouse over usb → DEVICE mouse-default\n"
         "- generic usb list → DEVICE usb-hub\n"
         "- modbus → DEVICE modbus-rtu or modbus-tcp\n"
-        'Return JSON only: {"dsl": "READ DEVICE sensor-temp REGISTER temperature"}\n'
+        "Return one DslLineResponse 1.0.0 JSON object only: "
+        '{"contractVersion":"1.0.0","dsl":"READ DEVICE sensor-temp REGISTER temperature"}\n'
         "Device catalog:\n"
         f"{_device_catalog()}"
     )
@@ -116,10 +131,11 @@ def nl_to_dsl_line(
                 {"role": "system", "content": system},
                 {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
             ],
-            response_format={"type": "json_object"},
+            response_format=response_format(),
         )
-        data = json.loads(content or "{}")
-        dsl = str(data.get("dsl", "")).strip()
+        data = json.loads(content)
+        validate_payload(data)
+        dsl = data["dsl"].strip()
         return _validate_dsl_line(dsl)
-    except Exception:
+    except Exception:  # noqa: BLE001 - provider failures deliberately trigger rules fallback
         return None

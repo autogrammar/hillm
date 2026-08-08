@@ -1869,6 +1869,7 @@ source = { editable = "packages/nlp2hillm" }
 dependencies = [
     { name = "dsl2hillm" },
     { name = "hillm" },
+    { name = "jsonschema" },
 ]
 
 [package.optional-dependencies]
@@ -1883,6 +1884,7 @@ llm = [
 requires-dist = [
     { name = "dsl2hillm", editable = "packages/dsl2hillm" },
     { name = "hillm", editable = "." },
+    { name = "jsonschema", specifier = ">=4.21" },
     { name = "litellm", marker = "extra == 'llm'", specifier = ">=1.51,<2.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
 ]

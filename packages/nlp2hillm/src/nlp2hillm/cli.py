@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 
-import re
-
 from dsl2hillm import dispatch
+from nlp2hillm.to_dsl import to_dsl_with_backend
+
 from hillm.project_env import apply_execution_policy, bootstrap_project_env
 from hillm.registry import get_device_spec
-from nlp2hillm.to_dsl import to_dsl_with_backend
 
 _DEVICE_RE = re.compile(r"\bDEVICE\s+([a-z0-9-]+)", re.I)
 
@@ -18,7 +18,9 @@ def main(argv: list[str] | None = None) -> int:
     bootstrap_project_env()
     parser = argparse.ArgumentParser(prog="nlp2hillm")
     parser.add_argument("prompt", nargs="?", help="Natural language hardware command")
-    parser.add_argument("--apply", action="store_true", help="Execute mapped DSL (dry-run by default)")
+    parser.add_argument(
+        "--apply", action="store_true", help="Execute mapped DSL (dry-run by default)"
+    )
     parser.add_argument(
         "--live",
         action="store_true",
@@ -68,7 +70,7 @@ def main(argv: list[str] | None = None) -> int:
         import sys as _sys
 
         if backend == "llm":
-            model = os.getenv("LLM_MODEL", "openrouter/qwen/qwen3-coder-next")
+            model = os.getenv("LLM_MODEL", "openrouter/z-ai/glm-5.2")
             print(f"# mapped via: llm ({model})", file=_sys.stderr)
         else:
             print("# mapped via: rules", file=_sys.stderr)

@@ -1,0 +1,4 @@
+{
+  "contractVersion": "1.0.0",
+  "dsl": "READ DEVICE sensor-temp REGISTER temperature"
+}

@@ -8,6 +8,28 @@ import pytest
 from nlp2hillm.contracts import CONTRACT_VERSION, load_schema, validate_payload
 from nlp2hillm.llm_backend import nl_to_dsl_line
 
+
+def test_default_backend_uses_central_subllm(monkeypatch):
+    from nlp2hillm import llm_backend
+
+    captured = {}
+
+    def fake_complete(application, function, messages, **kwargs):
+        captured.update(application=application, function=function, kwargs=kwargs)
+        return type("Response", (), {"content": '{"contractVersion":"1.0.0","dsl":"HEALTH"}'})()
+
+    monkeypatch.setattr(llm_backend, "subllm_complete", fake_complete)
+    result = llm_backend.LitellmBackend().complete(
+        model="ignored-by-policy",
+        messages=[{"role": "user", "content": "health"}],
+        response_format={"type": "json_object"},
+    )
+
+    assert '"dsl":"HEALTH"' in result
+    assert captured["application"] == "autogrammar-hillm"
+    assert captured["function"] == "invoke"
+    assert captured["kwargs"]["response_format"] == {"type": "json_object"}
+
 CONTRACTS = Path(__file__).parents[1] / "src" / "nlp2hillm" / "contracts" / "v1"
 FIXTURES = Path(__file__).parent / "fixtures" / "contracts" / "v1"
 
@@ -28,7 +50,8 @@ def test_nl_to_dsl_line_fake_backend() -> None:
     assert backend.response_format["json_schema"]["schema"] == load_schema()
 
 
-def test_nl_to_dsl_line_without_api_key() -> None:
+def test_nl_to_dsl_line_without_api_key(monkeypatch) -> None:
+    monkeypatch.setattr("nlp2hillm.llm_backend.available_routes", lambda *args: [])
     with patch.dict("os.environ", {}, clear=True):
         assert nl_to_dsl_line("read temperature") is None
 

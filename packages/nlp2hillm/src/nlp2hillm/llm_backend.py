@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
+
+from subllm import available_routes, complete as subllm_complete
 
 from nlp2hillm.contracts import response_format, validate_payload
 
@@ -32,28 +33,13 @@ class LitellmBackend:
         temperature: float = 0.2,
         response_format: dict[str, Any] | None = None,
     ) -> str:
-        import litellm  # type: ignore
-
-        kwargs: dict[str, Any] = {
-            "model": model,
-            "messages": messages,
-            "temperature": temperature,
-        }
-        if response_format is not None:
-            kwargs["response_format"] = response_format
-        if model.startswith("openrouter/"):
-            app_name = (
-                os.getenv("OPENROUTER_APP_NAME", "").strip()
-                or Path.cwd().name
-                or "hillm"
-            )
-            headers = {"X-Title": app_name}
-            app_url = os.getenv("OPENROUTER_APP_URL", "").strip()
-            if app_url:
-                headers["HTTP-Referer"] = app_url
-            kwargs["extra_headers"] = headers
-        response = litellm.completion(**kwargs)
-        return (response.choices[0].message.content or "").strip()
+        response = subllm_complete(
+            "autogrammar-hillm",
+            "invoke",
+            messages,
+            response_format=response_format,
+        )
+        return response.content.strip()
 
 
 def get_backend(backend: LLMBackend | None = None) -> LLMBackend:
@@ -102,8 +88,7 @@ def nl_to_dsl_line(
     backend: LLMBackend | None = None,
 ) -> str | None:
     """Convert NL prompt to a single dsl2hillm command line via LLM."""
-    api_key = os.getenv("OPENROUTER_API_KEY", "").strip()
-    if not api_key and backend is None:
+    if backend is None and not available_routes("autogrammar-hillm", "invoke"):
         return None
     resolved_model = model or os.getenv("LLM_MODEL", "openrouter/z-ai/glm-5.2")
     llm = get_backend(backend)

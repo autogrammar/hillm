@@ -9,7 +9,12 @@ description = "Natural language (PL/EN) to dsl2hillm — rules + optional OpenRo
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
-dependencies = ["dsl2hillm>=0.1.0", "hillm>=0.1.0", "jsonschema>=4.21"]
+dependencies = [
+    "dsl2hillm>=0.1.0",
+    "hillm>=0.1.0",
+    "jsonschema>=4.21",
+    "subactor-subllm @ git+https://github.com/subactor/subllm.git@0ba7ceb0da5bb3eb9cc98dd3ea47e8c00ad3ef60",
+]
 
 [project.optional-dependencies]
 llm = ["litellm>=1.51,<2.0"]

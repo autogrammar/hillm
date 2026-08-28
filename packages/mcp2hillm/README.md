@@ -18,6 +18,9 @@ mcp2hillm stdio
 
 Configure in your MCP client JSON (Cursor, Windsurf, …) pointing at `mcp2hillm`.
 
-`hillm_run_dsl` uses `dispatch()` which auto-loads `.env`. Include `DRY_RUN true` in DSL for safe device commands.
+`hillm_run_dsl` uses `dispatch()` which auto-loads `.env`. Live device reads,
+status checks, writes, actuation, connection changes, and execution are disabled
+over MCP by default. Include `DRY_RUN true` for a safe preview, or explicitly set
+`HILLM_MCP_ALLOW_EXECUTE=1` to allow live hardware access.
 
 **See also:** [Control layer](../README.md) · [docs/control-layer.md](../../docs/control-layer.md)

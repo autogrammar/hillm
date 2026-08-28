@@ -1665,12 +1665,19 @@ dependencies = [
     { name = "nlp2hillm" },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "dsl2hillm", editable = "packages/dsl2hillm" },
-    { name = "mcp", specifier = ">=1.0" },
+    { name = "mcp", specifier = ">=1.0,<2" },
     { name = "nlp2hillm", editable = "packages/nlp2hillm" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "mdurl"

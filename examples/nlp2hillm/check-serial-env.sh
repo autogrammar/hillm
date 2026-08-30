@@ -34,6 +34,15 @@ print('sensor-temp address:', spec.resolve_address())
 print('first serial port:', first_existing_serial_path('/dev/ttyUSB0', '/dev/ttyACM0') or '(none)')
 "
 
+if ! "$PY" -c "
+from hillm.registry import first_existing_serial_path
+import sys
+sys.exit(0 if first_existing_serial_path('/dev/ttyUSB0', '/dev/ttyACM0') else 2)
+"; then
+  echo "check-serial-env ok"
+  exit 0
+fi
+
 unset HILLM_DRY_RUN
 out="$("$NLP2HILLM" 'read temperature from serial' --no-llm -v --apply --live 2>&1)"
 echo "$out" | grep -q '# device: sensor-temp'

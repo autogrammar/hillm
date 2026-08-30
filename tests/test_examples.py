@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 from pathlib import Path
 
@@ -71,6 +72,11 @@ NLP2URI_SCRIPTS = [
 def _run_script(rel: str) -> subprocess.CompletedProcess[str]:
     script = EXAMPLES / rel
     assert script.is_file(), f"missing example: {rel}"
+    env = os.environ.copy()
+    venv_bin = ROOT / ".venv" / "bin"
+    if venv_bin.is_dir():
+        env["PATH"] = f"{venv_bin}{os.pathsep}{env.get('PATH', os.defpath)}"
+    env.setdefault("HILLM_DRY_RUN", "1")
     return subprocess.run(
         ["bash", str(script)],
         cwd=ROOT,
@@ -78,6 +84,7 @@ def _run_script(rel: str) -> subprocess.CompletedProcess[str]:
         text=True,
         check=False,
         timeout=60,
+        env=env,
     )
 
 

@@ -19,12 +19,12 @@ class StoredEvent:
         return asdict(self)
 
 
-class EventStore:
+class HillmEventStore:
     def __init__(self, path: Path) -> None:
         self.path = path
 
     @classmethod
-    def for_workdir(cls, workdir: Path) -> EventStore:
+    def for_workdir(cls, workdir: Path) -> HillmEventStore:
         root = workdir.expanduser().resolve()
         events_dir = root / ".hillm" / "events"
         events_dir.mkdir(parents=True, exist_ok=True)
@@ -54,3 +54,6 @@ class EventStore:
                 )
             )
         return events
+
+
+EventStore = HillmEventStore

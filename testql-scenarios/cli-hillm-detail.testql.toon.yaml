@@ -1,0 +1,5 @@
+# SCENARIO: Hillm full regression tests
+# TYPE: cli
+
+SHELL "bash scripts/wup-tests.sh detail" 180000
+ASSERT_EXIT_CODE 0

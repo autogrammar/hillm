@@ -48,14 +48,18 @@ def _with_device_id(result: DeviceResult, spec: DeviceSpec) -> DeviceResult:
     )
 
 
-def connect_device(device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any) -> DeviceResult:
+def connect_device(
+    device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any
+) -> DeviceResult:
     spec = _resolve_spec(device_id)
     backend = _backend_for(spec, dry_run=dry_run)
     result = backend.connect(address=spec.resolve_address(address), **options)
     return _with_device_id(result, spec)
 
 
-def disconnect_device(device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any) -> DeviceResult:
+def disconnect_device(
+    device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any
+) -> DeviceResult:
     spec = _resolve_spec(device_id)
     backend = _backend_for(spec, dry_run=dry_run)
     result = backend.disconnect(address=spec.resolve_address(address), **options)
@@ -114,21 +118,22 @@ def actuate_device(
     return _with_device_id(result, spec)
 
 
-def status_device(device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any) -> DeviceResult:
+def status_device(
+    device_id: str, *, address: str | None = None, dry_run: bool = False, **options: Any
+) -> DeviceResult:
     spec = _resolve_spec(device_id)
     backend = _backend_for(spec, dry_run=dry_run)
     result = backend.status(address=spec.resolve_address(address), **options)
     return _with_device_id(result, spec)
 
 
-def execute_request(request: HardwareRequest) -> DeviceResult:
-    device_id = normalize_device_id(request.device_id)
-    action = request.action.strip().lower()
-    options = dict(request.options or {})
-    if action == "connect":
-        return connect_device(device_id, address=request.address or None, dry_run=request.dry_run, **options)
-    if action == "disconnect":
-        return disconnect_device(device_id, address=request.address or None, dry_run=request.dry_run, **options)
+def _execute_register_request(
+    request: HardwareRequest,
+    device_id: str,
+    action: str,
+    options: dict[str, Any],
+) -> DeviceResult:
+    """Dispatch an already normalized read or write request."""
     if action == "read":
         return read_device(
             device_id,
@@ -137,15 +142,30 @@ def execute_request(request: HardwareRequest) -> DeviceResult:
             dry_run=request.dry_run,
             **options,
         )
-    if action == "write":
-        return write_device(
-            device_id,
-            request.value,
-            register=request.register or None,
-            address=request.address or None,
-            dry_run=request.dry_run,
-            **options,
+    return write_device(
+        device_id,
+        request.value,
+        register=request.register or None,
+        address=request.address or None,
+        dry_run=request.dry_run,
+        **options,
+    )
+
+
+def execute_request(request: HardwareRequest) -> DeviceResult:
+    device_id = normalize_device_id(request.device_id)
+    action = request.action.strip().lower()
+    options = dict(request.options or {})
+    if action == "connect":
+        return connect_device(
+            device_id, address=request.address or None, dry_run=request.dry_run, **options
         )
+    if action == "disconnect":
+        return disconnect_device(
+            device_id, address=request.address or None, dry_run=request.dry_run, **options
+        )
+    if action in {"read", "write"}:
+        return _execute_register_request(request, device_id, action, options)
     if action == "actuate":
         return actuate_device(
             device_id,
@@ -156,5 +176,7 @@ def execute_request(request: HardwareRequest) -> DeviceResult:
             **options,
         )
     if action == "status":
-        return status_device(device_id, address=request.address or None, dry_run=request.dry_run, **options)
+        return status_device(
+            device_id, address=request.address or None, dry_run=request.dry_run, **options
+        )
     raise ValueError(f"unsupported hardware action: {request.action}")

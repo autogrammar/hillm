@@ -4,10 +4,11 @@ import argparse
 import json
 import sys
 
-from hillm.project_env import bootstrap_project_env
 from uri2hillm.decode import uri_to_dsl
 from uri2hillm.run import run_uri
 from uri2hillm.uri import normalize_uri_input
+
+from hillm.project_env import bootstrap_project_env
 
 
 def _target(argv: list[str]) -> str:
@@ -46,6 +47,18 @@ def _print_help() -> None:
     )
 
 
+def _execute_args(args: argparse.Namespace, *, as_json: bool) -> int:
+    default_file = args.file or None
+    uri = normalize_uri_input(_target(args.target), default_file=default_file)
+    return _run_and_print(
+        uri,
+        default_file=default_file,
+        live=args.live,
+        dry_run=not args.live or args.dry_run,
+        as_json=as_json,
+    )
+
+
 def main(argv: list[str] | None = None) -> int:
     bootstrap_project_env()
     argv = list(argv if argv is not None else sys.argv[1:])
@@ -70,14 +83,7 @@ def main(argv: list[str] | None = None) -> int:
         parser.add_argument("--live", action="store_true")
         parser.add_argument("--dry-run", action="store_true")
         args = parser.parse_args(argv[1:])
-        uri = normalize_uri_input(_target(args.target), default_file=args.file or None)
-        return _run_and_print(
-            uri,
-            default_file=args.file or None,
-            live=args.live,
-            dry_run=not args.live or args.dry_run,
-            as_json=args.json,
-        )
+        return _execute_args(args, as_json=args.json)
 
     parser = argparse.ArgumentParser(prog="uri2hillm")
     parser.add_argument("target", nargs="+", help="hillm:// URI or DSL line")
@@ -85,14 +91,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--live", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
-    uri = normalize_uri_input(_target(args.target), default_file=args.file or None)
-    return _run_and_print(
-        uri,
-        default_file=args.file or None,
-        live=args.live,
-        dry_run=not args.live or args.dry_run,
-        as_json=True,
-    )
+    return _execute_args(args, as_json=True)
 
 
 if __name__ == "__main__":

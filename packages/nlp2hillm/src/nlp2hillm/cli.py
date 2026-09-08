@@ -14,6 +14,30 @@ from hillm.registry import get_device_spec
 _DEVICE_RE = re.compile(r"\bDEVICE\s+([a-z0-9-]+)", re.I)
 
 
+def _print_mapping_diagnostics(line: str, backend: str) -> None:
+    import os
+    import sys as _sys
+
+    if backend == "llm":
+        model = os.getenv("LLM_MODEL", "openrouter/z-ai/glm-5.2")
+        print(f"# mapped via: llm ({model})", file=_sys.stderr)
+    else:
+        print("# mapped via: rules", file=_sys.stderr)
+    match = _DEVICE_RE.search(line)
+    if match:
+        spec = get_device_spec(match.group(1))
+        if spec:
+            print(f"# device: {spec.id} → address {spec.resolve_address()!r}", file=_sys.stderr)
+    import importlib.util
+
+    hillm_path = __import__("hillm").__file__ or ""
+    nlp_spec = importlib.util.find_spec("nlp2hillm")
+    nlp_path = getattr(nlp_spec, "origin", "") if nlp_spec else ""
+    print(f"# hillm: {os.path.dirname(hillm_path)}", file=_sys.stderr)
+    if nlp_path:
+        print(f"# nlp2hillm: {os.path.dirname(nlp_path)}", file=_sys.stderr)
+
+
 def main(argv: list[str] | None = None) -> int:
     bootstrap_project_env()
     parser = argparse.ArgumentParser(prog="nlp2hillm")
@@ -66,27 +90,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
     if args.verbose:
-        import os
-        import sys as _sys
-
-        if backend == "llm":
-            model = os.getenv("LLM_MODEL", "openrouter/z-ai/glm-5.2")
-            print(f"# mapped via: llm ({model})", file=_sys.stderr)
-        else:
-            print("# mapped via: rules", file=_sys.stderr)
-        match = _DEVICE_RE.search(line)
-        if match:
-            spec = get_device_spec(match.group(1))
-            if spec:
-                print(f"# device: {spec.id} → address {spec.resolve_address()!r}", file=_sys.stderr)
-        import importlib.util
-
-        hillm_path = __import__("hillm").__file__ or ""
-        nlp_spec = importlib.util.find_spec("nlp2hillm")
-        nlp_path = getattr(nlp_spec, "origin", "") if nlp_spec else ""
-        print(f"# hillm: {os.path.dirname(hillm_path)}", file=_sys.stderr)
-        if nlp_path:
-            print(f"# nlp2hillm: {os.path.dirname(nlp_path)}", file=_sys.stderr)
+        _print_mapping_diagnostics(line, backend)
     if not args.apply:
         print(line)
         return 0

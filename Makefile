@@ -4,6 +4,7 @@ SHELL := /usr/bin/env bash
 PYTHON ?= python3
 VENV ?= .venv
 UV ?= uv
+REGIX ?= regix
 PORT ?= 8218
 HOST ?= 127.0.0.1
 
@@ -13,7 +14,7 @@ export
 endif
 
 .PHONY: help venv sync install install-dev install-control install-transports install-all \
-	test test-fast test-examples lint format check examples rest serve clean lock goal
+	test test-fast test-examples lint format check examples rest serve clean lock goal quality-regix
 
 help: ## Show targets
 	@echo "hillm — Hardware Interface LLM"
@@ -39,6 +40,7 @@ help: ## Show targets
 	@echo "  make test-examples     examples/**/*.sh"
 	@echo "  make examples          bash examples/run-all-dry-run.sh"
 	@echo "  make check             lint + test"
+	@echo "  make quality-regix     local core + adapter CC/length gate"
 	@echo ""
 	@echo "Release:"
 	@echo "  make lint              ruff check"
@@ -171,3 +173,6 @@ clean:
 
 goal: install-dev
 	goal -a
+
+quality-regix: ## Check current core and adapter source against complexity limits
+	$(REGIX) gates --ref local --no-cache --config regix.yaml --workdir . --fail-on error

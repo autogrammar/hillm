@@ -3,10 +3,10 @@ from __future__ import annotations
 import os
 import re
 
+from nlp2hillm.llm_backend import LLMBackend, nl_to_dsl_line
+
 from hillm.registry import get_device_spec
 from hillm.resolve import default_serial_device, resolve_device_from_text
-
-from nlp2hillm.llm_backend import LLMBackend, nl_to_dsl_line
 
 _READ_RE = re.compile(r"\b(read|odczytaj|pobierz)\b", re.I)
 _WRITE_RE = re.compile(r"\b(write|zapisz|ustaw)\b", re.I)
@@ -54,6 +54,13 @@ def _has_clear_rule_match(prompt: str) -> bool:
     return False
 
 
+def _temperature_register(text: str, device: str) -> str:
+    if not re.search(r"\b(temp|temperature|temperatur)\b", text, re.I):
+        return ""
+    spec = get_device_spec(device)
+    return (spec.default_register if spec else "") or "temperature"
+
+
 def _rule_to_dsl(prompt: str) -> str:
     text = prompt.strip()
     if not text:
@@ -75,10 +82,7 @@ def _rule_to_dsl(prompt: str) -> str:
     if _ACTUATE_RE.search(text):
         action = "capture" if re.search(r"\b(camera|webcam|kamera)\b", text, re.I) else "on"
         return f"ACTUATE DEVICE {device} ACTION {action}"
-    register = ""
-    if re.search(r"\b(temp|temperature|temperatur)\b", text, re.I):
-        spec = get_device_spec(device)
-        register = (spec.default_register if spec else "") or "temperature"
+    register = _temperature_register(text, device)
     if register:
         return f"READ DEVICE {device} REGISTER {register}"
     if _READ_RE.search(text):

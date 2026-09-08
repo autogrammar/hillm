@@ -1,0 +1,39 @@
+project:
+  name: hillm
+  description: Local source and adapter regression tests
+watch:
+  paths: ["src/**", "packages/**"]
+  file_types: [".py"]
+  exclude_patterns:
+    - "**/__pycache__/**"
+    - "**/build/**"
+    - "**/dist/**"
+    - "**/*.egg-info/**"
+    - "**/.venv/**"
+    - ".wup/**"
+    - ".hillm/**"
+services:
+  - name: hillm
+    root: .
+    type: shell
+    paths: ["src/**", "packages/**"]
+    quick_tests:
+      scenario: cli-hillm-quick.testql.toon.yaml
+      max_endpoints: 1
+    detail_tests:
+      scenario: cli-hillm-detail.testql.toon.yaml
+      max_endpoints: 1
+test_strategy:
+  quick: {debounce_s: 2, max_queue: 1, timeout_s: 60}
+  detail: {debounce_s: 2, max_queue: 1, timeout_s: 240}
+testql:
+  scenario_dir: testql-scenarios
+  smoke_scenario: cli-hillm-quick.testql.toon.yaml
+  probe_interval_s: 0
+  extra_args: ["--timeout", "240000"]
+planfile:
+  enabled: false
+web:
+  enabled: false
+intent_monitoring:
+  enabled: false

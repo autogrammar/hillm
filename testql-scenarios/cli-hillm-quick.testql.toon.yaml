@@ -1,0 +1,5 @@
+# SCENARIO: Hillm focused regression tests
+# TYPE: cli
+
+SHELL "bash scripts/wup-tests.sh quick" 30000
+ASSERT_EXIT_CODE 0

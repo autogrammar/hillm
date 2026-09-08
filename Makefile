@@ -5,6 +5,8 @@ PYTHON ?= python3
 VENV ?= .venv
 UV ?= uv
 REGIX ?= regix
+WUP ?= wup
+TESTQL ?= testql
 PORT ?= 8218
 HOST ?= 127.0.0.1
 
@@ -14,7 +16,7 @@ export
 endif
 
 .PHONY: help venv sync install install-dev install-control install-transports install-all \
-	test test-fast test-examples lint format check examples rest serve clean lock goal quality-regix
+	test test-fast test-examples lint format check examples rest serve clean lock goal quality-regix watch-tests
 
 help: ## Show targets
 	@echo "hillm — Hardware Interface LLM"
@@ -41,6 +43,7 @@ help: ## Show targets
 	@echo "  make examples          bash examples/run-all-dry-run.sh"
 	@echo "  make check             lint + test"
 	@echo "  make quality-regix     local core + adapter CC/length gate"
+	@echo "  make watch-tests       foreground Wup regression watcher"
 	@echo ""
 	@echo "Release:"
 	@echo "  make lint              ruff check"
@@ -176,3 +179,8 @@ goal: install-dev
 
 quality-regix: ## Check current core and adapter source against complexity limits
 	$(REGIX) gates --ref local --no-cache --config regix.yaml --workdir . --fail-on error
+
+watch-tests: ## Watch source changes with quick/detail regression checks
+	mkdir -p .wup
+	cp wup.yaml .wup/runtime.yaml
+	WUP_PLANFILE_ENABLED=0 $(WUP) watch . --mode testql --config .wup/runtime.yaml --deps .wup/deps.json --testql-bin "$(TESTQL)" --probe-interval 0 --cooldown 0

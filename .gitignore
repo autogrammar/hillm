@@ -226,3 +226,6 @@ __marimo__/
 
 # Koru operational state; retain the surrounding Planfile backlog.
 /.planfile/.koru/
+
+# Local Wup state and failure traces.
+/.wup/

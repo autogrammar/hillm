@@ -150,6 +150,23 @@ Coverage, documentation and maintainability have no enforced baseline in this
 configuration. This opt-in local command does not install hooks or replace the
 independent OneDev test and Validator publication process.
 
+## Local regression watcher
+
+After installing the development workspace, run `make watch-tests` in the
+checkout being edited. Wup and TestQL must be available (verified with Wup
+0.2.64 and TestQL 1.2.67); override `WUP` and `TESTQL` with executable paths
+when needed. The watcher runs in the foreground; stop it with Ctrl-C.
+
+Changes in core or adapter Python files trigger the pinned quick scenario
+(103 focused regression cases). A quick failure triggers the full test suite;
+traces and the generated runtime configuration stay in ignored `.wup/`. Generated files are excluded, periodic HTTP
+probes and external reporting are disabled. The test runner forces dry-run by
+default and imports source from this checkout, even with a shared test Python.
+Wup 0.2.64 ignores test directories even if listed as watch roots; for test-only
+edits, run `bash scripts/wup-tests.sh quick` or `detail` manually.
+An incomplete environment fails with setup guidance instead of auto-installing.
+This development watcher does not replace protected OneDev verification.
+
 ## Documentation
 
 | Doc | Content |

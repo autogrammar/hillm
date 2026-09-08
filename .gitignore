@@ -223,3 +223,6 @@ __marimo__/
 
 # Canonical linked worktrees (host Wellmanifest policy).
 /.worktrees/
+
+# Koru operational state; retain the surrounding Planfile backlog.
+/.planfile/.koru/

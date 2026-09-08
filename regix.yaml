@@ -1,0 +1,30 @@
+# Local complexity regression checks for the core and every workspace adapter.
+regix:
+  workdir: .
+  metrics:
+    cc_max: 15
+    length_max: 100
+    # This gate measures CC/length only; coverage and documentation have no baseline.
+    mi_min: 0
+    mi_target: 0
+    coverage_min: 0
+    coverage_target: 0
+    docstring_min: 0
+    docstring_target: 0
+    quality_min: 0
+    quality_target: 0
+  backends:
+    cc: lizard
+    mi: none
+    coverage: none
+    quality: none
+    docstring: none
+  include:
+    - "src/**"
+    - "packages/*/src/**"
+  exclude:
+    - "**/__pycache__/**"
+    - "**/build/**"
+    - "**/*.egg-info/**"
+  gates:
+    fail_exit_code: 1

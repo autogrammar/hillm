@@ -137,6 +137,19 @@ make test-examples     # examples/**/*.sh smoke (40+ scripts)
 make examples          # bash examples/run-all-dry-run.sh
 ```
 
+## Local complexity gate
+
+Run `make quality-regix` before publishing source changes. It requires `regix`
+with the Lizard backend (verified with Regix 0.1.15); select an isolated executable
+with `make quality-regix REGIX=/path/to/regix` when needed.
+
+The gate reads the current working tree, including uncommitted source, under
+`src/` and every `packages/*/src/` adapter. It exits nonzero above CC 15 or
+100 lines per function. Tests, examples and build output are outside its scope.
+Coverage, documentation and maintainability have no enforced baseline in this
+configuration. This opt-in local command does not install hooks or replace the
+independent OneDev test and Validator publication process.
+
 ## Documentation
 
 | Doc | Content |

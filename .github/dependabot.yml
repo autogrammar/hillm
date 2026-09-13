@@ -1,0 +1,34 @@
+version: 2
+updates:
+- package-ecosystem: uv
+  directory: /
+  schedule:
+    interval: cron
+    cronjob: 24 4 * * *
+    timezone: Europe/Warsaw
+  open-pull-requests-limit: 1
+  versioning-strategy: increase-if-necessary
+  allow:
+  - dependency-name: costs
+    dependency-type: all
+  - dependency-name: dsl2hillm
+    dependency-type: all
+  - dependency-name: goal
+    dependency-type: all
+  - dependency-name: hillm
+    dependency-type: all
+  - dependency-name: nlp2hillm
+    dependency-type: all
+  - dependency-name: testql
+    dependency-type: all
+  groups:
+    internal-packages:
+      patterns:
+      - costs
+      - dsl2hillm
+      - goal
+      - hillm
+      - nlp2hillm
+      - testql
+  commit-message:
+    prefix: "chore(deps)"

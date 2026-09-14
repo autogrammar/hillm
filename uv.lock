@@ -507,7 +507,7 @@ wheels = [
 
 [[package]]
 name = "costs"
-version = "0.1.51"
+version = "0.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
@@ -520,9 +520,9 @@ dependencies = [
     { name = "tiktoken" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/92/2c/d9f9a9c0acd33bc40788aaeef792fe045efd42368cde2ad00a0e15eeb625/costs-0.1.51.tar.gz", hash = "sha256:727f5f14874c41731e2485cc309ec4cc87c447288c8be4c0ddb38f72391d49cc", size = 30777, upload-time = "2026-05-12T08:33:20.439Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/6f/7f3c72d6d4b5264bd5a3447e18a3b5184bffee143f72c8d023bb759afd1a/costs-0.2.0.tar.gz", hash = "sha256:3782bae859725dae30f697b5f3e5aa5d84e06feadebc5782ae706e21d46437af", size = 44606, upload-time = "2026-09-05T15:49:55.524Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/15/4490e3afc8e0e903a984582db06a34ec9feeddf52ef99902d456a2e15da5/costs-0.1.51-py3-none-any.whl", hash = "sha256:15e2ebf518fec04e5883612d96dd2673f56cbeaf58408e448eb0837c01a2dc85", size = 35771, upload-time = "2026-05-12T08:33:19.271Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/7e/fc91d9fdc7a1ceb9116daffab27124a54f6e8887c9d59d906df43dcbfa6a/costs-0.2.0-py3-none-any.whl", hash = "sha256:4798b8535cbbcbb354e440ebce91365f17c910414bf5831a0610998ae6e679af", size = 48625, upload-time = "2026-09-05T15:49:54.054Z" },
 ]
 
 [[package]]
@@ -626,7 +626,7 @@ wheels = [
 
 [package.optional-dependencies]
 toml = [
-    { name = "tomli", marker = "python_full_version <= '3.11'" },
+    { name = "tomli", marker = "python_full_version <= '3.11' or python_full_version >= '3.14'" },
 ]
 
 [[package]]
@@ -987,7 +987,7 @@ wheels = [
 
 [[package]]
 name = "goal"
-version = "2.1.246"
+version = "2.1.284"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -997,9 +997,9 @@ dependencies = [
     { name = "tomlkit" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2d/0e/3850cb39653297f65a69100041ecca6d81782f5ac9e5814a8f93f807b5bb/goal-2.1.246.tar.gz", hash = "sha256:e40ad3d4fa0e2b3321f3af80e8b6cc3c44492be89c45ca23ab504a553a498bc2", size = 275505, upload-time = "2026-06-08T14:17:20.306Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/ed/3ef5beaa56627e95a66269adcfce7c219fff1948b93fc6f2f209fb0cea66/goal-2.1.284.tar.gz", hash = "sha256:61d47e6b68ba499fefad17b3df4bc4b6647da9db80a5dbc0918165c81d3f8ab1", size = 334328, upload-time = "2026-07-23T19:42:09.372Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/59/4d/2ede84c77a5bac61084496f1eb5c78c53f178ed05af8d613259b13fcb3e9/goal-2.1.246-py3-none-any.whl", hash = "sha256:29543a9069b27716fa6a2c0f9aff54b5386105f8f2fb1abaeb8e6e824f9de78e", size = 271094, upload-time = "2026-06-08T14:17:18.264Z" },
+    { url = "https://files.pythonhosted.org/packages/09/30/8155e85057ef3a8871f04db2a14b10d2216c0af68957f36f0417c2b44821/goal-2.1.284-py3-none-any.whl", hash = "sha256:d00dab399a774d07da902e1ef42ad5282e513e65410bace0c3185b555f365777", size = 309816, upload-time = "2026-07-23T19:42:07.494Z" },
 ]
 
 [[package]]
@@ -1877,6 +1877,7 @@ dependencies = [
     { name = "dsl2hillm" },
     { name = "hillm" },
     { name = "jsonschema" },
+    { name = "subactor-subllm" },
 ]
 
 [package.optional-dependencies]
@@ -1894,6 +1895,7 @@ requires-dist = [
     { name = "jsonschema", specifier = ">=4.21" },
     { name = "litellm", marker = "extra == 'llm'", specifier = ">=1.51,<2.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
+    { name = "subactor-subllm", git = "https://github.com/subactor/subllm.git?rev=0ba7ceb0da5bb3eb9cc98dd3ea47e8c00ad3ef60" },
 ]
 provides-extras = ["llm", "dev"]
 
@@ -2105,7 +2107,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "sys_platform != 'win32'" },
+    { name = "ptyprocess" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -2166,8 +2168,8 @@ name = "playwright"
 version = "1.61.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "greenlet", marker = "python_full_version < '3.14'" },
-    { name = "pyee", marker = "python_full_version < '3.14'" },
+    { name = "greenlet" },
+    { name = "pyee" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/44/ee/31e4e0db36588b817a10b299a0285082545fde7d36543c2abe498bb3d61a/playwright-1.61.0-py3-none-macosx_10_13_x86_64.whl", hash = "sha256:ff138c3a604f69911e9d42fd036e55c2a171e5616edf04c1e7f60a2a285540b0", size = 43421877, upload-time = "2026-06-29T10:32:48.428Z" },
@@ -2475,7 +2477,7 @@ name = "pyee"
 version = "13.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.14'" },
+    { name = "typing-extensions" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/8b/04/e7c1fe4dc78a6fdbfd6c337b1c3732ff543b8a397683ab38378447baa331/pyee-13.0.1.tar.gz", hash = "sha256:0b931f7c14535667ed4c7e0d531716368715e860b988770fc7eb8578d1f67fc8", size = 31655, upload-time = "2026-02-14T21:12:28.044Z" }
 wheels = [
@@ -2553,9 +2555,9 @@ name = "pytest-cov"
 version = "7.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "coverage", extra = ["toml"], marker = "python_full_version < '3.14'" },
-    { name = "pluggy", marker = "python_full_version < '3.14'" },
-    { name = "pytest", marker = "python_full_version < '3.14'" },
+    { name = "coverage", extra = ["toml"] },
+    { name = "pluggy" },
+    { name = "pytest" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b1/51/a849f96e117386044471c8ec2bd6cfebacda285da9525c9106aeb28da671/pytest_cov-7.1.0.tar.gz", hash = "sha256:30674f2b5f6351aa09702a9c8c364f6a01c27aae0c1366ae8016160d1efc56b2", size = 55592, upload-time = "2026-03-21T20:11:16.284Z" }
 wheels = [
@@ -3147,25 +3149,30 @@ wheels = [
 ]
 
 [[package]]
+name = "subactor-subllm"
+version = "1.7.0"
+source = { git = "https://github.com/subactor/subllm.git?rev=0ba7ceb0da5bb3eb9cc98dd3ea47e8c00ad3ef60#0ba7ceb0da5bb3eb9cc98dd3ea47e8c00ad3ef60" }
+
+[[package]]
 name = "testql"
-version = "1.2.64"
+version = "1.2.66"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "click", marker = "python_full_version < '3.14'" },
-    { name = "costs", marker = "python_full_version < '3.14'" },
-    { name = "fastapi", marker = "python_full_version < '3.14'" },
-    { name = "goal", marker = "python_full_version < '3.14'" },
-    { name = "httpx", marker = "python_full_version < '3.14'" },
-    { name = "pfix", marker = "python_full_version < '3.14'" },
-    { name = "playwright", marker = "python_full_version < '3.14'" },
-    { name = "pytest-cov", marker = "python_full_version < '3.14'" },
-    { name = "pyyaml", marker = "python_full_version < '3.14'" },
-    { name = "rich", marker = "python_full_version < '3.14'" },
-    { name = "websockets", marker = "python_full_version < '3.14'" },
+    { name = "click" },
+    { name = "costs" },
+    { name = "fastapi" },
+    { name = "goal" },
+    { name = "httpx" },
+    { name = "pfix" },
+    { name = "playwright" },
+    { name = "pytest-cov" },
+    { name = "pyyaml" },
+    { name = "rich" },
+    { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1b/cb/f340d44005088d95c30fbd4015dc4063ba7f13c0e08b413fb01fcff50831/testql-1.2.64.tar.gz", hash = "sha256:938f0808cb220c75e9497648ef261dbcafb407a9a422a1d2c91c8b87d02352bc", size = 406763, upload-time = "2026-07-20T09:38:44.902Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5c/f6/4749ba3cb49bf534c99e88d2ca208f4fd229d653479b1d40d4475b7dd53e/testql-1.2.66.tar.gz", hash = "sha256:6ff4a2cf06a320626f1bc874c5fe22694c205cb761df842ea426a29178c9bc64", size = 411524, upload-time = "2026-07-21T17:13:32.239Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2c/18/59870ca85bda442866863f41fbe154adeb6e7fdd8aefd29e5a11259b2b55/testql-1.2.64-py3-none-any.whl", hash = "sha256:2c858601d7e5e91a16696cd59aaee07dff31b04e57ec93931d8d8a6d7bdf3a33", size = 396020, upload-time = "2026-07-20T09:38:42.884Z" },
+    { url = "https://files.pythonhosted.org/packages/11/28/7ced741139303e6a0b812ceecc1215b8249ee93495edfac42aa657839788/testql-1.2.66-py3-none-any.whl", hash = "sha256:2bb2bef478f007381a24200795e7e01ab076c25617b206e291d3d2c47e2a5483", size = 399953, upload-time = "2026-07-21T17:13:28.333Z" },
 ]
 
 [[package]]

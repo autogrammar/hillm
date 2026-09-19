@@ -229,3 +229,14 @@ __marimo__/
 
 # Local Wup state and failure traces.
 /.wup/
+
+!.github/
+!.github/**
+
+# Repository-local worktrees and operational state
+/.subactor/leases/
+/.subactor/sessions/
+/.subactor/recovery/
+/.subactor/receipts/
+/.subactor/cache/
+/.subactor/snapshots/

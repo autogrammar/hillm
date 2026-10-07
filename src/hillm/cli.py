@@ -151,6 +151,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    try:
+        from .autoupdate import check_for_updates
+        check_for_updates("hillm")
+    except Exception:
+        pass
     bootstrap_project_env()
     parser = build_parser()
     args = parser.parse_args(list(argv) if argv is not None else None)

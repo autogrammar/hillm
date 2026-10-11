@@ -1,18 +1,19 @@
 # Ticket 002: add autoupdate support
 
 - **ID**: ticket-002
-- **Owner**: unresolved:human
+- **Owner**: antigravity
 - **Status**: IN_PROGRESS
 - **Workflow state**: EDIT
 - **Created**: 2026-10-07
 
 ## Goal and scope
 
-To be completed from human-owned input.
+Add non-blocking background update check for hillm CLI emitting notices on stderr.
 
 ## Acceptance criteria
 
-- [ ] AC-01: Scope is approved by a human owner.
+- [x] AC-01: Non-blocking background update check for hillm CLI emitting notices on stderr.
+- [x] AC-02: Governance check and repository tests pass cleanly.
 
 ## Tracking boundary
 

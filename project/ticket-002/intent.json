@@ -8,8 +8,17 @@
     "priority": "P2",
     "origin": "health"
   },
-  "allowedPaths": ["project/ticket-002/**", "TODO.md", "project/TICKETS.md"],
-  "forbiddenPaths": ["project/ticket-*/user-*.md"],
+  "allowedPaths": [
+    "project/ticket-001/README.md",
+    "project/ticket-002/**",
+    "project/TICKETS.md",
+    "src/hillm/autoupdate.py",
+    "src/hillm/cli.py",
+    "tests/test_autoupdate.py"
+  ],
+  "forbiddenPaths": [
+    "project/ticket-*/user-*.md"
+  ],
   "stacks": [],
   "dependsOn": [],
   "conflictsWith": [],

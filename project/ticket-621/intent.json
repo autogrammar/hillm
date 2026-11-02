@@ -1,0 +1,73 @@
+{
+  "schema": "new-project.intent/v3",
+  "ticket": "ticket-621",
+  "summary": "adopt dependabot costs 0.2.1 bump through a governed ticket",
+  "workstream": "integration",
+  "classification": {
+    "kind": "SERVICE",
+    "priority": "P2",
+    "origin": "health"
+  },
+  "allowedPaths": [
+    "project/ticket-621/**",
+    "TODO.md",
+    "project/TICKETS.md",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "forbiddenPaths": [
+    "project/ticket-*/user-*.md"
+  ],
+  "stacks": [],
+  "dependsOn": [],
+  "conflictsWith": [],
+  "integrationTicket": null,
+  "delivery": {
+    "targetBranch": "main",
+    "acceptedBaseSha": "624efec771065f3be6b1b5bd1ee29963c0cd8973",
+    "outcome": "Adopt the dependabot costs 0.2.0\u21920.2.1 bump through a governed ticket so the dependency-manifest change carries ticket identity.",
+    "complexity": "XS",
+    "estimatedMinutes": 10,
+    "budgets": {
+      "maxImplementationFiles": 2,
+      "maxAffectedComponents": 1,
+      "maxPublicInterfaceChanges": 0,
+      "maxRuntimeDependencies": 0
+    },
+    "runtimeDependencies": [],
+    "nonGoals": [
+      "No source changes; content identical to dependabot PR #20."
+    ],
+    "architecture": {
+      "status": "accepted",
+      "components": [
+        {
+          "name": "dependency manifests",
+          "paths": [
+            "pyproject.toml",
+            "uv.lock"
+          ]
+        }
+      ],
+      "responsibilityChanges": false,
+      "interfaceChanges": [],
+      "dataChanges": [],
+      "decision": "Version-only manifest bump adopted from dependabot #20; verified by the pinned offline hillm suite (input pin refreshed by onedev-agent#860).",
+      "rollback": "Revert the single commit through protected publication.",
+      "ui": {
+        "impact": "none",
+        "states": [],
+        "evidence": []
+      }
+    },
+    "validation": [
+      {
+        "criterion": "AC-01",
+        "commands": [
+          "onedev/local-verify (offline hillm suite, pinned inputs)"
+        ],
+        "evidence": "Suite passes against the refreshed pin."
+      }
+    ]
+  }
+}

@@ -507,7 +507,7 @@ wheels = [
 
 [[package]]
 name = "costs"
-version = "0.2.0"
+version = "0.2.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
@@ -520,9 +520,9 @@ dependencies = [
     { name = "tiktoken" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e4/6f/7f3c72d6d4b5264bd5a3447e18a3b5184bffee143f72c8d023bb759afd1a/costs-0.2.0.tar.gz", hash = "sha256:3782bae859725dae30f697b5f3e5aa5d84e06feadebc5782ae706e21d46437af", size = 44606, upload-time = "2026-09-05T15:49:55.524Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/37/65f757e8c2578b298716b4b1e1e659c0cb4b145053e94c92f8d6ecdce0db/costs-0.2.1.tar.gz", hash = "sha256:e861e839750b3834ef391a495eb6314e72610a01876f437cb1f70d7dd4ab5f90", size = 46413, upload-time = "2026-10-18T13:02:28.785Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/7e/fc91d9fdc7a1ceb9116daffab27124a54f6e8887c9d59d906df43dcbfa6a/costs-0.2.0-py3-none-any.whl", hash = "sha256:4798b8535cbbcbb354e440ebce91365f17c910414bf5831a0610998ae6e679af", size = 48625, upload-time = "2026-09-05T15:49:54.054Z" },
+    { url = "https://files.pythonhosted.org/packages/6e/07/88a5ac166689f4c57d89052342ade6cc9f80b12f7a97473b74c6b3d7e73b/costs-0.2.1-py3-none-any.whl", hash = "sha256:8dabbf44441ad60d6a449b103e333fcfe36dafa92a5005c81c0b259139525706", size = 50918, upload-time = "2026-10-18T13:02:27.209Z" },
 ]
 
 [[package]]
@@ -626,7 +626,7 @@ wheels = [
 
 [package.optional-dependencies]
 toml = [
-    { name = "tomli", marker = "python_full_version <= '3.11'" },
+    { name = "tomli", marker = "python_full_version <= '3.11' or python_full_version >= '3.14'" },
 ]
 
 [[package]]
@@ -2105,7 +2105,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "sys_platform != 'win32'" },
+    { name = "ptyprocess" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -2166,8 +2166,8 @@ name = "playwright"
 version = "1.61.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "greenlet", marker = "python_full_version < '3.14'" },
-    { name = "pyee", marker = "python_full_version < '3.14'" },
+    { name = "greenlet" },
+    { name = "pyee" },
 ]
 wheels = [
     { url = "https://files.pythonhosted.org/packages/44/ee/31e4e0db36588b817a10b299a0285082545fde7d36543c2abe498bb3d61a/playwright-1.61.0-py3-none-macosx_10_13_x86_64.whl", hash = "sha256:ff138c3a604f69911e9d42fd036e55c2a171e5616edf04c1e7f60a2a285540b0", size = 43421877, upload-time = "2026-06-29T10:32:48.428Z" },
@@ -2475,7 +2475,7 @@ name = "pyee"
 version = "13.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.14'" },
+    { name = "typing-extensions" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/8b/04/e7c1fe4dc78a6fdbfd6c337b1c3732ff543b8a397683ab38378447baa331/pyee-13.0.1.tar.gz", hash = "sha256:0b931f7c14535667ed4c7e0d531716368715e860b988770fc7eb8578d1f67fc8", size = 31655, upload-time = "2026-02-14T21:12:28.044Z" }
 wheels = [
@@ -2553,9 +2553,9 @@ name = "pytest-cov"
 version = "7.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "coverage", extra = ["toml"], marker = "python_full_version < '3.14'" },
-    { name = "pluggy", marker = "python_full_version < '3.14'" },
-    { name = "pytest", marker = "python_full_version < '3.14'" },
+    { name = "coverage", extra = ["toml"] },
+    { name = "pluggy" },
+    { name = "pytest" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b1/51/a849f96e117386044471c8ec2bd6cfebacda285da9525c9106aeb28da671/pytest_cov-7.1.0.tar.gz", hash = "sha256:30674f2b5f6351aa09702a9c8c364f6a01c27aae0c1366ae8016160d1efc56b2", size = 55592, upload-time = "2026-03-21T20:11:16.284Z" }
 wheels = [
@@ -3156,17 +3156,17 @@ name = "testql"
 version = "1.2.66"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "click", marker = "python_full_version < '3.14'" },
-    { name = "costs", marker = "python_full_version < '3.14'" },
-    { name = "fastapi", marker = "python_full_version < '3.14'" },
-    { name = "goal", marker = "python_full_version < '3.14'" },
-    { name = "httpx", marker = "python_full_version < '3.14'" },
-    { name = "pfix", marker = "python_full_version < '3.14'" },
-    { name = "playwright", marker = "python_full_version < '3.14'" },
-    { name = "pytest-cov", marker = "python_full_version < '3.14'" },
-    { name = "pyyaml", marker = "python_full_version < '3.14'" },
-    { name = "rich", marker = "python_full_version < '3.14'" },
-    { name = "websockets", marker = "python_full_version < '3.14'" },
+    { name = "click" },
+    { name = "costs" },
+    { name = "fastapi" },
+    { name = "goal" },
+    { name = "httpx" },
+    { name = "pfix" },
+    { name = "playwright" },
+    { name = "pytest-cov" },
+    { name = "pyyaml" },
+    { name = "rich" },
+    { name = "websockets" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/5c/f6/4749ba3cb49bf534c99e88d2ca208f4fd229d653479b1d40d4475b7dd53e/testql-1.2.66.tar.gz", hash = "sha256:6ff4a2cf06a320626f1bc874c5fe22694c205cb761df842ea426a29178c9bc64", size = 411524, upload-time = "2026-07-21T17:13:32.239Z" }
 wheels = [
